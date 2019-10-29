@@ -178,7 +178,7 @@ public class GuiTransfer extends javax.swing.JFrame {
     }
     
     private void refreshFrame(){
-        GuiFitur main = new GuiFitur(nomorRekening);
+        GUILogin main = new GUILogin();
         main.setVisible(true);
         this.dispose();
     }

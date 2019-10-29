@@ -159,15 +159,22 @@ public class GuiTarik extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nominal = nominal2.getText();
         if(user.getSaldo()>=Integer.parseInt(nominal)){
-            try {
-                controller.cekTarikTunai(nomorRekening, nominal);
-                JOptionPane.showMessageDialog(this, "Berhasil menarik tunai "
-                    + "sebesar Rp."+nominal+"!");
-                refreshFrame();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(GuiFitur.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(GuiFitur.class.getName()).log(Level.SEVERE, null, ex);
+            int limit = 50000;
+            int tarikan = Integer.parseInt(nominal);
+            int cek = tarikan%limit;
+            if(cek == 0){
+                try {
+                    controller.cekTarikTunai(nomorRekening, nominal);
+                    JOptionPane.showMessageDialog(this, "Berhasil menarik tunai "
+                        + "sebesar Rp."+nominal+"!");
+                    refreshFrame();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(GuiFitur.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(GuiFitur.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "Nominal tidak sesuai");
             }
         }else{
             JOptionPane.showMessageDialog(this, "Saldo Anda tidak cukup!");
@@ -179,7 +186,7 @@ public class GuiTarik extends javax.swing.JFrame {
     }
     
     private void refreshFrame(){
-        GuiFitur main = new GuiFitur(nomorRekening);
+        GUILogin main = new GUILogin();
         main.setVisible(true);
         this.dispose();
     }

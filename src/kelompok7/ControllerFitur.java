@@ -69,25 +69,44 @@ public class ControllerFitur {
             throws ClassNotFoundException, IOException{
         List<Atm> atms = atmModel.tampilObjekAtm();
         int hasil = 0;
-        if(bankPenerima.equalsIgnoreCase(bankPenerima)){
+        int cas = 5000;
+        boolean bank = false;
+        if(bankPenerima.equalsIgnoreCase(bankPengirim)){
             hasil = nominal;
+            bank = true;
         }else{
             hasil = nominal + 5000;
         }
         int i = 0;
         for(Atm data : atms){
-            if(data.getNmrRekening().equalsIgnoreCase(nomorRekening)){
-                data.setSaldo(data.getSaldo()-nominal);
-                data.setHistori(data.getHistori()+"Mentransfer saldo ke "
-                        + nomorRekeningTujuan +" dengan nama penerima "
-                        + namaPenerima+" sebesar Rp."+hasil+"\n\n");
-            }else if(data.getNmrRekening().equalsIgnoreCase(nomorRekeningTujuan)){
-                data.setSaldo(data.getSaldo()+nominal);
-                data.setHistori(data.getHistori()+"Menerima transfer saldo dari "
-                        + nomorRekening +" dengan nama pengirim "
-                        + namaPengirim+" sebesar Rp."+nominal+"\n\n");
+            if(bank == true){
+                if(data.getNmrRekening().equalsIgnoreCase(nomorRekening)){
+                    data.setSaldo(data.getSaldo()-nominal);
+                    data.setHistori(data.getHistori()+"Mentransfer saldo ke "
+                            + nomorRekeningTujuan +" dengan nama penerima "
+                            + namaPenerima+" sebesar Rp "+hasil+"\n\n");
+                }else if(data.getNmrRekening().equalsIgnoreCase(nomorRekeningTujuan)){
+                    data.setSaldo(data.getSaldo()+nominal);
+                    data.setHistori(data.getHistori()+"Menerima transfer saldo dari "
+                            + nomorRekening +" dengan nama pengirim "
+                            + namaPengirim+" sebesar Rp "+nominal+"\n\n");
+                }
+            }else{
+                hasil = hasil - cas;
+                if(data.getNmrRekening().equalsIgnoreCase(nomorRekening)){
+                data.setSaldo(data.getSaldo()-nominal-5000);
+                    data.setHistori(data.getHistori()+"Mentransfer saldo ke "
+                            + nomorRekeningTujuan +" dengan nama penerima "
+                            + namaPenerima+" sebesar Rp "+hasil+" dengan biaya "+cas+"\n\n");
+                }else if(data.getNmrRekening().equalsIgnoreCase(nomorRekeningTujuan)){
+                    data.setSaldo(data.getSaldo()+nominal);
+                    data.setHistori(data.getHistori()+"Menerima transfer saldo dari "
+                            + nomorRekening +" dengan nama pengirim "
+                            + namaPengirim+" sebesar Rp "+nominal+"\n\n");
+                }
+                i++;
             }
-            i++;
+            
         }
         atmModel.simpanObjekAtm(atms);
         
